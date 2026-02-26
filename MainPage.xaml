@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:BeerRate_MAUI_App.ViewModels"
+             x:Class="BeerRate_MAUI_App.MainPage"
+             x:DataType="viewmodels:MainViewModel"
+             Title="🍺 Beer Rating App">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            
+            <!-- Header -->
+            <Label Text="Rate Your Beers" 
+                   FontSize="28" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,20"/>
+
+            <!-- Add Beer Section -->
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Add New Beer" FontSize="20" FontAttributes="Bold"/>
+                    
+                    <Entry Placeholder="Beer Name" 
+                           Text="{Binding BeerName}" 
+                           ClearButtonVisibility="WhileEditing"/>
+                    
+                    <Entry Placeholder="Brewery" 
+                           Text="{Binding Brewery}"
+                           ClearButtonVisibility="WhileEditing"/>
+                    
+                    <Picker Title="Select Style" 
+                            ItemsSource="{Binding BeerStyles}"
+                            SelectedItem="{Binding Style}"/>
+                    
+                    <!-- Rating Buttons -->
+                    <Label Text="Rating:" FontAttributes="Bold"/>
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
+                        <Button Text="⭐ 1" 
+                                Grid.Column="0"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="1"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=1}"/>
+                        <Button Text="⭐ 2" 
+                                Grid.Column="1"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="2"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=2}"/>
+                        <Button Text="⭐ 3" 
+                                Grid.Column="2"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="3"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=3}"/>
+                        <Button Text="⭐ 4" 
+                                Grid.Column="3"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="4"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=4}"/>
+                    </Grid>
+                    
+                    <Button Text="Add Beer" 
+                            Command="{Binding AddBeerCommand}"
+                            BackgroundColor="#512BD4"
+                            TextColor="White"
+                            Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Search Section -->
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Search Beers" FontSize="20" FontAttributes="Bold"/>
+                    <SearchBar Placeholder="Search by name, brewery, or style..."
+                               Text="{Binding SearchText}"
+                               SearchCommand="{Binding LoadBeersCommand}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Data Management Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Text="📥 Export CSV" 
+                        Grid.Column="0"
+                        Command="{Binding ExportToCsvCommand}"/>
+                <Button Text="📊 View Stats" 
+                        Grid.Column="1"
+                        Command="{Binding ViewStatsCommand}"/>
+            </Grid>
+
+            <!-- Beer List -->
+            <Label Text="Your Beer Ratings" FontSize="20" FontAttributes="Bold" Margin="0,10,0,0"/>
+            
+            <CollectionView ItemsSource="{Binding FilteredBeerRatings}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray" 
+                               CornerRadius="10" 
+                               Padding="15" 
+                               Margin="0,5"
+                               HasShadow="True">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding BeerName}" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold"/>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Brewery: " FontAttributes="Bold"/>
+                                            <Span Text="{Binding Brewery}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Style: " FontAttributes="Bold"/>
+                                            <Span Text="{Binding Style}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Rating: " FontAttributes="Bold"/>
+                                            <Span Text="{Binding Rating}"/>
+                                            <Span Text=" ⭐"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="No beers rated yet. Add your first beer above!" 
+                           HorizontalOptions="Center"
+                           Margin="0,20"
+                           TextColor="Gray"/>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
