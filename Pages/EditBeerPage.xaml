@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:BeerRate_MAUI_App.ViewModels"
+             xmlns:converters="clr-namespace:BeerRate_MAUI_App.Converters"
+             x:Class="BeerRate_MAUI_App.Pages.EditBeerPage"
+             x:DataType="viewmodels:EditBeerViewModel"
+             Title="Edit Beer">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            
+            <!-- Header -->
+            <Label Text="Edit Beer Rating" 
+                   FontSize="28" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,20"/>
+
+            <!-- Edit Beer Form -->
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    
+                    <Entry Placeholder="Beer Name" 
+                           Text="{Binding BeerName}" 
+                           ClearButtonVisibility="WhileEditing"/>
+                    
+                    <Entry Placeholder="Brewery" 
+                           Text="{Binding Brewery}"
+                           ClearButtonVisibility="WhileEditing"/>
+                    
+                    <Picker Title="Select Style" 
+                            ItemsSource="{Binding BeerStyles}"
+                            SelectedItem="{Binding Style}"/>
+                    
+                    <!-- Rating Buttons -->
+                    <Label Text="Rating:" FontAttributes="Bold"/>
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
+                        <Button Text="⭐ 1" 
+                                Grid.Column="0"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="1"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=1}"/>
+                        <Button Text="⭐ 2" 
+                                Grid.Column="1"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="2"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=2}"/>
+                        <Button Text="⭐ 3" 
+                                Grid.Column="2"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="3"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=3}"/>
+                        <Button Text="⭐ 4" 
+                                Grid.Column="3"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="4"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=4}"/>
+                    </Grid>
+                    
+                    <!-- Action Buttons -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,0">
+                        <Button Text="Save Changes" 
+                                Grid.Column="0"
+                                Command="{Binding SaveBeerCommand}"
+                                BackgroundColor="#512BD4"
+                                TextColor="White"/>
+                        <Button Text="Cancel" 
+                                Grid.Column="1"
+                                Command="{Binding CancelCommand}"
+                                BackgroundColor="LightGray"
+                                TextColor="Black"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

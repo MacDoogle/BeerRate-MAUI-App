@@ -97,11 +97,16 @@
                                Padding="15" 
                                Margin="0,5"
                                HasShadow="True">
-                            <VerticalStackLayout Spacing="5">
+                            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto,Auto">
+                                <!-- Beer Details -->
                                 <Label Text="{Binding BeerName}" 
                                        FontSize="18" 
-                                       FontAttributes="Bold"/>
-                                <Label>
+                                       FontAttributes="Bold"
+                                       Grid.Row="0"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"/>
+                                
+                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Brewery: " FontAttributes="Bold"/>
@@ -109,7 +114,8 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label>
+                                
+                                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Style: " FontAttributes="Bold"/>
@@ -117,7 +123,8 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label>
+                                
+                                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Rating: " FontAttributes="Bold"/>
@@ -126,7 +133,30 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                            </VerticalStackLayout>
+
+                                <!-- Action Buttons -->
+                                <Button Text="✏️ Edit" 
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditBeerCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#512BD4"
+                                        TextColor="White"
+                                        FontSize="12"
+                                        Padding="5"
+                                        Margin="0,5,5,0"/>
+                                
+                                <Button Text="🗑️ Delete" 
+                                        Grid.Row="4"
+                                        Grid.Column="1"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteBeerCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#DC3545"
+                                        TextColor="White"
+                                        FontSize="12"
+                                        Padding="5"
+                                        Margin="5,5,0,0"/>
+                            </Grid>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

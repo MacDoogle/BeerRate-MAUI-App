@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using BeerRate_MAUI_App.Data;
 using BeerRate_MAUI_App.Services;
 using BeerRate_MAUI_App.ViewModels;
+using BeerRate_MAUI_App.Pages;
 
 namespace BeerRate_MAUI_App
 {
@@ -29,9 +30,11 @@ namespace BeerRate_MAUI_App
 
             // Register ViewModels
             builder.Services.AddTransient<MainViewModel>();
+            builder.Services.AddTransient<EditBeerViewModel>();
 
             // Register Pages
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<EditBeerPage>();
 
             // Register App
             builder.Services.AddSingleton<App>();
