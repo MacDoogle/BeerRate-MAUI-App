@@ -4,15 +4,14 @@
              xmlns:viewmodels="clr-namespace:BeerRate_MAUI_App.ViewModels"
              x:Class="BeerRate_MAUI_App.MainPage"
              x:DataType="viewmodels:MainViewModel"
-             Title="🍺 Beer Rating App">
+             Title="">
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
             
             <!-- Header -->
-            <Label Text="Rate Your Beers" 
-                   FontSize="28" 
-                   FontAttributes="Bold"
+            <Label Text="🍺" 
+                   FontSize="64" 
                    HorizontalOptions="Center"
                    Margin="0,10,0,20"/>
 
@@ -35,7 +34,7 @@
                     
                     <!-- Rating Buttons -->
                     <Label Text="Rating:" FontAttributes="Bold"/>
-                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
+                    <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="5">
                         <Button Text="⭐ 1" 
                                 Grid.Column="0"
                                 Command="{Binding SetRatingCommand}"
@@ -56,6 +55,11 @@
                                 Command="{Binding SetRatingCommand}"
                                 CommandParameter="4"
                                 BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=4}"/>
+                        <Button Text="⭐ 5" 
+                                Grid.Column="4"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="5"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=5}"/>
                     </Grid>
                     
                     <Button Text="Add Beer" 

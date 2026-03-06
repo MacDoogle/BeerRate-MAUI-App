@@ -187,7 +187,7 @@ namespace BeerRate_MAUI_App.ViewModels
                              $"Most Rated Brewery: {mostRatedBrewery}\n\n" +
                              $"Rating Distribution:\n{string.Join("\n", ratingCounts)}";
 
-            await Shell.Current.DisplayAlert("?? Statistics", statsMessage, "OK");
+            await Shell.Current.DisplayAlert("Statistics", statsMessage, "OK");
         }
 
         [RelayCommand]
