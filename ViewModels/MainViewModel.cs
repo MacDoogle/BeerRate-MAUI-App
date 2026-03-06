@@ -23,6 +23,9 @@ namespace BeerRate_MAUI_App.ViewModels
         [ObservableProperty]
         private int rating = 0;
 
+        [ObservableProperty]
+        private string notes = string.Empty;
+
         [RelayCommand]
         private void SetRating(string ratingValue)
         {
@@ -40,6 +43,15 @@ namespace BeerRate_MAUI_App.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<BeerRating> filteredBeerRatings = new();
+
+        [ObservableProperty]
+        private ObservableCollection<BeerRating> displayedBeerRatings = new();
+
+        [ObservableProperty]
+        private bool showAll = false;
+
+        [ObservableProperty]
+        private string showAllButtonText = "Show All";
 
         public List<string> BeerStyles { get; } = new()
         {
@@ -81,7 +93,8 @@ namespace BeerRate_MAUI_App.ViewModels
                 BeerName = BeerName,
                 Brewery = Brewery,
                 Style = Style,
-                Rating = Rating
+                Rating = Rating,
+                Notes = string.IsNullOrWhiteSpace(Notes) ? null : Notes
             };
 
             var context = _databaseService.GetContext();
@@ -93,6 +106,7 @@ namespace BeerRate_MAUI_App.ViewModels
             Brewery = string.Empty;
             Style = "IPA";
             Rating = 0;
+            Notes = string.Empty;
 
             await LoadBeersAsync();
             await Shell.Current.DisplayAlert("Success", "Beer rating added!", "OK");
@@ -135,6 +149,32 @@ namespace BeerRate_MAUI_App.ViewModels
             {
                 FilteredBeerRatings.Add(beer);
             }
+
+            UpdateDisplayedBeers();
+        }
+
+        private void UpdateDisplayedBeers()
+        {
+            DisplayedBeerRatings.Clear();
+
+            var beersToDisplay = ShowAll 
+                ? FilteredBeerRatings 
+                : FilteredBeerRatings.Take(5);
+
+            foreach (var beer in beersToDisplay)
+            {
+                DisplayedBeerRatings.Add(beer);
+            }
+
+            // Update button text
+            ShowAllButtonText = ShowAll ? "Show Less" : $"Show All ({FilteredBeerRatings.Count})";
+        }
+
+        [RelayCommand]
+        private void ToggleShowAll()
+        {
+            ShowAll = !ShowAll;
+            UpdateDisplayedBeers();
         }
 
         [RelayCommand]
@@ -142,10 +182,11 @@ namespace BeerRate_MAUI_App.ViewModels
         {
             try
             {
-                var csv = "Beer Name,Brewery,Style,Rating\n";
+                var csv = "Beer Name,Brewery,Style,Rating,Notes\n";
                 foreach (var beer in BeerRatings)
                 {
-                    csv += $"\"{beer.BeerName}\",\"{beer.Brewery}\",\"{beer.Style}\",{beer.Rating}\n";
+                    var notes = string.IsNullOrWhiteSpace(beer.Notes) ? "" : beer.Notes;
+                    csv += $"\"{beer.BeerName}\",\"{beer.Brewery}\",\"{beer.Style}\",{beer.Rating},\"{notes}\"\n";
                 }
 
                 var fileName = $"BeerRatings_{DateTime.Now:yyyyMMdd_HHmmss}.csv";

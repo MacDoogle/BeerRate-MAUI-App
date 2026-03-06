@@ -26,6 +26,9 @@ namespace BeerRate_MAUI_App.ViewModels
         [ObservableProperty]
         private int rating = 0;
 
+        [ObservableProperty]
+        private string notes = string.Empty;
+
         public List<string> BeerStyles { get; } = new()
         {
             "IPA",
@@ -58,6 +61,7 @@ namespace BeerRate_MAUI_App.ViewModels
                 Brewery = beer.Brewery;
                 Style = beer.Style;
                 Rating = beer.Rating;
+                Notes = beer.Notes;
             }
         }
 
@@ -90,6 +94,7 @@ namespace BeerRate_MAUI_App.ViewModels
                     beer.Brewery = Brewery;
                     beer.Style = Style;
                     beer.Rating = Rating;
+                    beer.Notes = Notes;
 
                     await context.SaveChangesAsync();
                     await Shell.Current.DisplayAlert("Success", "Beer updated!", "OK");

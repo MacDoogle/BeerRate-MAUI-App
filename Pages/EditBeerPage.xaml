@@ -35,7 +35,7 @@
                     
                     <!-- Rating Buttons -->
                     <Label Text="Rating:" FontAttributes="Bold"/>
-                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
+                    <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="5">
                         <Button Text="⭐ 1" 
                                 Grid.Column="0"
                                 Command="{Binding SetRatingCommand}"
@@ -56,7 +56,19 @@
                                 Command="{Binding SetRatingCommand}"
                                 CommandParameter="4"
                                 BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=4}"/>
+                        <Button Text="⭐ 5" 
+                                Grid.Column="4"
+                                Command="{Binding SetRatingCommand}"
+                                CommandParameter="5"
+                                BackgroundColor="{Binding Rating, Converter={StaticResource RatingColorConverter}, ConverterParameter=5}"/>
                     </Grid>
+                    
+                    <!-- Notes Field -->
+                    <Editor Placeholder="Notes (optional)" 
+                            Text="{Binding Notes}"
+                            AutoSize="TextChanges"
+                            MinimumHeightRequest="80"
+                            MaximumHeightRequest="150"/>
                     
                     <!-- Action Buttons -->
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,0">
