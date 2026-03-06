@@ -13,6 +13,7 @@
             
             <!-- Converters -->
             <converters:RatingColorConverter x:Key="RatingColorConverter"/>
+            <converters:StringNullOrEmptyBoolConverter x:Key="StringNullOrEmptyBoolConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
