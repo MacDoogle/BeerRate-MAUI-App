@@ -187,7 +187,43 @@ namespace BeerRate_MAUI_App.ViewModels
                              $"Most Rated Brewery: {mostRatedBrewery}\n\n" +
                              $"Rating Distribution:\n{string.Join("\n", ratingCounts)}";
 
-            await Shell.Current.DisplayAlert("?? Statistics", statsMessage, "OK");
+            await Shell.Current.DisplayAlert("Statistics", statsMessage, "OK");
+        }
+
+        [RelayCommand]
+        private async Task DeleteBeerAsync(BeerRating beer)
+        {
+            if (beer == null) return;
+
+            var confirm = await Shell.Current.DisplayAlert(
+                "Delete Beer",
+                $"Are you sure you want to delete '{beer.BeerName}'?",
+                "Delete",
+                "Cancel");
+
+            if (!confirm) return;
+
+            try
+            {
+                var context = _databaseService.GetContext();
+                context.BeerRatings.Remove(beer);
+                await context.SaveChangesAsync();
+
+                await LoadBeersAsync();
+                await Shell.Current.DisplayAlert("Success", "Beer deleted!", "OK");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"Failed to delete: {ex.Message}", "OK");
+            }
+        }
+
+        [RelayCommand]
+        private async Task EditBeerAsync(BeerRating beer)
+        {
+            if (beer == null) return;
+
+            await Shell.Current.GoToAsync($"editbeer?beerId={beer.Id}");
         }
     }
 }
